@@ -1,3 +1,3 @@
 # TheEndOfLearning
-# IsTh BeginningOfDeath
+# IsTheBeginningOfDeath
 VFX Graph for AG Games Engineering
