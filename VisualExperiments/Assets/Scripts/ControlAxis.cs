@@ -3,21 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class ControlAxis : MonoBehaviour
 {
+    [SerializeField]
+    PlayerInput playerInput;
     [SerializeField]
     public float minValue;
     [SerializeField]
     public float maxValue;
     [SerializeField]
-    public float gain;
-    [SerializeField]
     public float initialValue;
     [SerializeField]
     public string inputAxis;
-    [SerializeField]
-    public bool loop;
 
     float m_currentValue;
     float currentValue
@@ -25,47 +24,21 @@ public class ControlAxis : MonoBehaviour
         get => m_currentValue;
         set
         {
-            if (!loop)
-            {
-                value = Mathf.Clamp(value, minValue, maxValue);
-            }
-            else
-            {
-                value = Loop(value);
-            }
-            if(value != m_currentValue)
-            {
-                onValueChanged?.Invoke(value);
-            }
-            m_currentValue = value;
+            value = Mathf.Clamp(value, minValue, maxValue);
+            onValueChanged?.Invoke(value);
         }
     }
 
     public UnityEvent<float> onValueChanged;
 
-    private void Start()
-    {
-        currentValue = initialValue;
-    }
-
     public void Update()
     {
-        float input = Input.GetAxis(inputAxis);
-        currentValue += input * gain * Time.deltaTime;
+        float input = playerInput.actions[inputAxis].ReadValue<float>();
+        currentValue = Mathf.Lerp(minValue, maxValue, input);
     }
 
-    float Loop(float value)
+    private void OnValidate()
     {
-        if(value < minValue)
-        {
-            float excess = value - minValue;
-            return maxValue + excess;
-        }
-        if(value > maxValue)
-        {
-            float excess = value - maxValue;
-            return minValue + excess;
-        }
-        return value;
+        playerInput = FindObjectOfType<PlayerInput>();
     }
 }

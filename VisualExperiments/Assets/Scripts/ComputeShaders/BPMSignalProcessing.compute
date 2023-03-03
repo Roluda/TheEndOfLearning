@@ -1,0 +1,35 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+// Create a RenderTexture with enableRandomWrite flag and set it
+// with cs.SetTexture
+RWStructuredBuffer<float> energyCorrelation;
+RWStructuredBuffer<float> energyHistory;
+
+uint minBPM;
+uint maxBPM;
+uint samples;
+uint startIndex;
+
+float historyTime;
+
+[numthreads(10,10,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+    uint measuredBPM = minBPM + id.x * 10 + id.y;
+    
+    float frequency = float(60) / measuredBPM;
+    
+    float samplesSecond = samples / historyTime;
+        
+    float impulseInterval = samplesSecond * frequency;
+   
+    float energy;
+    
+    for (float i = 0; i < samples; i=i+impulseInterval)
+    {
+        energy += energyHistory[round(i)];
+    }    
+    energyCorrelation[id.x * 10 + id.y] = energy;
+}

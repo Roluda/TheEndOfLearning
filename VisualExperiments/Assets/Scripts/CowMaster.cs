@@ -9,6 +9,18 @@ public class CowMaster : MonoBehaviour
 {
     [SerializeField]
     Volume volume;
+    [SerializeField]
+    SoundCapture capture;
+    [SerializeField]
+    GameObject cow;
+    [SerializeField]
+    BPMMeasure bpmMeasure;
+
+
+    public void SetMaxFrequency(float value)
+    {
+        capture.maxFreq = (int)value;
+    }
 
     public void SetBloomScatter(float value)
     {
@@ -25,4 +37,6 @@ public class CowMaster : MonoBehaviour
             bloom.intensity.value = value;
         }
     }
+
+    Vector3 reference;
 }

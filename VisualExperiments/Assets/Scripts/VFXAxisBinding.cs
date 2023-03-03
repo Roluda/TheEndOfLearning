@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.VFX;
 using UnityEngine.VFX.Utility;
 
@@ -14,29 +15,24 @@ class VFXAxisBinding : VFXBinderBase
     protected ExposedProperty m_AxisProperty = "Axis";
 
     public string AxisName = "Horizontal";
-    public float AccumulateSpeed = 1.0f;
-    public bool Accumulate = true;
     public float minValue;
     public float maxValue;
+    public PlayerInput playerInput;
 
     public override bool IsValid(VisualEffect component)
     {
-        return component.HasFloat(m_AxisProperty);
+        return component.HasFloat(m_AxisProperty) && playerInput;
     }
 
     public override void UpdateBinding(VisualEffect component)
     {
-#if ENABLE_LEGACY_INPUT_MANAGER
-        float axis = Input.GetAxisRaw(AxisName);
+        float valueRaw = playerInput.actions[AxisName].ReadValue<float>();
+        component.SetFloat(m_AxisProperty, Mathf.Lerp(minValue, maxValue, valueRaw));
+    }
 
-        if (Accumulate)
-        {
-            float value = component.GetFloat(m_AxisProperty);
-            component.SetFloat(m_AxisProperty, Mathf.Clamp(value + (AccumulateSpeed * axis * Time.deltaTime), minValue, maxValue));
-        }
-        else
-            component.SetFloat(m_AxisProperty, axis);
-#endif
+    private void OnValidate()
+    {
+        playerInput = FindObjectOfType<PlayerInput>();
     }
 
     public override string ToString()

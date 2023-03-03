@@ -107,8 +107,6 @@ public class SoundCapture : MonoBehaviour
         }
     }
 
-    public float[] energyData;
-    public float[][] EnergyHistory;
     public float[] barData;
 
     public float[] GetFFtData()
@@ -136,8 +134,6 @@ public class SoundCapture : MonoBehaviour
             return null;
         }
     }
-
-    int historyIndex;
 
     void Update()
     {        
@@ -172,6 +168,14 @@ public class SoundCapture : MonoBehaviour
                 }
             }
         }
+    }
 
+
+    int historyIndex;
+    float[] energyHistory;
+
+    private void CalculateBPM(float[] barData)
+    {
+        throw new NotImplementedException();
     }
 }
