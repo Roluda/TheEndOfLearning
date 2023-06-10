@@ -16,23 +16,21 @@ class VFXToggleBinding : VFXBinderBase
     protected ExposedProperty m_ButtonProperty = "ButtonDown";
 
     public string ButtonName = "Action";
-    public PlayerInput playerInput;
+    public InputActionReference toggleAction;
 
     bool toogle;
 
     public override bool IsValid(VisualEffect component)
     {
-        return component.HasBool(m_ButtonProperty) && playerInput;
+        return component.HasBool(m_ButtonProperty);
     }
 
     public override void UpdateBinding(VisualEffect component)
     {
-        component.SetBool(m_ButtonProperty, toogle);
-    }
-
-    private void OnValidate()
-    {
-        playerInput = FindObjectOfType<PlayerInput>();
+        if (!Hold.isHolding)
+        {
+            component.SetBool(m_ButtonProperty, toogle);
+        }
     }
 
     public override string ToString()
@@ -42,7 +40,7 @@ class VFXToggleBinding : VFXBinderBase
 
     private void Start()
     {
-        playerInput.actions[ButtonName].performed += PressButton;
+        toggleAction.action.performed += PressButton;
     }
 
     private void PressButton(InputAction.CallbackContext obj)

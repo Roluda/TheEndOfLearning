@@ -33,7 +33,9 @@ public class VFXBPM : VFXBinderBase
         {
             measures.RemoveLast();
         }
-
-        component.SetInt(bpmProperty, (int)measures.Average());
+        if (!Hold.isHolding)
+        {
+            component.SetInt(bpmProperty, (int)measures.Average());
+        }
     }
 }

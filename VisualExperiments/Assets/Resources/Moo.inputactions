@@ -118,6 +118,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "VFXToggle7",
+                    "type": "Button",
+                    "id": "f454daa8-f53f-4827-91ae-5363ab8dcd4f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Quit",
                     "type": "Button",
                     "id": "3c89e466-134b-477d-a970-42ec81e607f4",
@@ -638,6 +646,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Fullscreen",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2ad14b0d-c69e-4317-9186-8f512135e6a5",
+                    "path": "<MidiDevice>/note098",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "VFXToggle7",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a877d32d-4daa-4adc-84d7-54cadb6c8980",
+                    "path": "<Keyboard>/7",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "VFXToggle7",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

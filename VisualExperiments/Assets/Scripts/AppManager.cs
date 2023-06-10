@@ -7,17 +7,15 @@ using UnityEngine.InputSystem;
 public class AppManager : MonoBehaviour
 {
     [SerializeField]
-    PlayerInput playerInput;
+    InputActionReference quitAction;
+    [SerializeField]
+    InputActionReference fullscreenAction;
     // Start is called before the first frame update
 
-    private void OnValidate()
-    {
-        playerInput = FindObjectOfType<PlayerInput>();
-    }
     void Start()
     {
-        playerInput.actions["Quit"].performed += Quit;
-        playerInput.actions["Fullscreen"].performed += Fullscreen;
+        quitAction.action.performed += Quit;
+        fullscreenAction.action.performed += Fullscreen;
     }
 
     private void Fullscreen(InputAction.CallbackContext obj)

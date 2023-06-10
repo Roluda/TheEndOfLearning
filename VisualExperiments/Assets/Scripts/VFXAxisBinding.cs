@@ -17,22 +17,20 @@ class VFXAxisBinding : VFXBinderBase
     public string AxisName = "Horizontal";
     public float minValue;
     public float maxValue;
-    public PlayerInput playerInput;
+    public InputActionReference axisBinding;
 
     public override bool IsValid(VisualEffect component)
     {
-        return component.HasFloat(m_AxisProperty) && playerInput;
+        return component.HasFloat(m_AxisProperty);
     }
 
     public override void UpdateBinding(VisualEffect component)
     {
-        float valueRaw = playerInput.actions[AxisName].ReadValue<float>();
-        component.SetFloat(m_AxisProperty, Mathf.Lerp(minValue, maxValue, valueRaw));
-    }
-
-    private void OnValidate()
-    {
-        playerInput = FindObjectOfType<PlayerInput>();
+        float valueRaw = axisBinding.action.ReadValue<float>();
+        if (!Hold.isHolding)
+        {
+            component.SetFloat(m_AxisProperty, Mathf.Lerp(minValue, maxValue, valueRaw));
+        }
     }
 
     public override string ToString()

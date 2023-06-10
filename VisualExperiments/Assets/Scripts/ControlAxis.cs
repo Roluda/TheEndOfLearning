@@ -8,8 +8,6 @@ using UnityEngine.InputSystem;
 public class ControlAxis : MonoBehaviour
 {
     [SerializeField]
-    PlayerInput playerInput;
-    [SerializeField]
     public float minValue;
     [SerializeField]
     public float maxValue;
@@ -17,6 +15,8 @@ public class ControlAxis : MonoBehaviour
     public float initialValue;
     [SerializeField]
     public string inputAxis;
+    [SerializeField]
+    InputActionReference controlAxis;
 
     float m_currentValue;
     float currentValue
@@ -33,12 +33,10 @@ public class ControlAxis : MonoBehaviour
 
     public void Update()
     {
-        float input = playerInput.actions[inputAxis].ReadValue<float>();
-        currentValue = Mathf.Lerp(minValue, maxValue, input);
-    }
-
-    private void OnValidate()
-    {
-        playerInput = FindObjectOfType<PlayerInput>();
+        float input = controlAxis.action.ReadValue<float>();
+        if (!Hold.isHolding)
+        {
+            currentValue = Mathf.Lerp(minValue, maxValue, input);
+        }
     }
 }
